@@ -136,19 +136,18 @@ func (v *GoVersion) IsDevel() bool {
 const goVersionPrefix = "go version "
 
 // Installed runs "go version" and parses the output
-func Installed() (GoVersion, bool) {
+func Installed() (ver GoVersion, verinfo string, ok bool) {
 	out, err := exec.Command("go", "version").CombinedOutput()
 	if err != nil {
-		return GoVersion{}, false
+		return
 	}
-
 	s := string(out)
-
 	if !strings.HasPrefix(s, goVersionPrefix) {
-		return GoVersion{}, false
+		return
 	}
-
-	return Parse(s[len(goVersionPrefix):])
+	verinfo = s[len(goVersionPrefix):]
+	ver, ok = Parse(verinfo)
+	return
 }
 
 // VersionAfterOrEqual checks that version (as returned by runtime.Version()

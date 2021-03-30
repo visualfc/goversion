@@ -34,7 +34,7 @@ func TestParseVersionString(t *testing.T) {
 }
 
 func TestInstalled(t *testing.T) {
-	installedVersion, ok := Installed()
+	installedVersion, verinfo, ok := Installed()
 	if !ok {
 		t.Fatalf("could not parse output of go version")
 	}
@@ -43,6 +43,7 @@ func TestInstalled(t *testing.T) {
 		t.Fatalf("could not parse output of runtime.Version() %q", runtime.Version())
 	}
 
+	t.Logf("version: %v", verinfo)
 	t.Logf("installed: %v", installedVersion)
 	t.Logf("runtime: %v", runtimeVersion)
 
